@@ -1,0 +1,14 @@
+# RELEASE - where ADEncstream finds EPICS base and its support modules.
+#
+# Needs EPICS base 7, asyn and areaDetector (ADCore, ADSupport). The paths are site-specific and
+# are not kept in git: define EPICS_ROOT, EPICS_BASE, SUPPORT and AREA_DETECTOR in configure/RELEASE.local
+# (see configure/EXAMPLE_RELEASE.local) or in RELEASE.local next to this module's directory.
+# areaDetector's own RELEASE_PRODS.local then supplies ASYN, ADCORE, ADSUPPORT and, for IOCs,
+# AUTOSAVE, BUSY, CALC, SSCAN and DEVIOCSTATS.
+
+TEMPLATE_TOP = $(EPICS_BASE)/templates/makeBaseApp/top
+
+-include $(TOP)/../RELEASE.local
+-include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local
+-include $(TOP)/configure/RELEASE.local
+-include $(AREA_DETECTOR)/configure/RELEASE_PRODS.local

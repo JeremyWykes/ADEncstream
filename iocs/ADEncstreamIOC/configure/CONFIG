@@ -1,0 +1,12 @@
+# CONFIG - the example IOC's build configuration
+RULES = $(EPICS_BASE)
+include $(TOP)/configure/RELEASE
+-include $(TOP)/configure/RELEASE.$(EPICS_HOST_ARCH).Common
+ifdef T_A
+-include $(TOP)/configure/RELEASE.Common.$(T_A)
+-include $(TOP)/configure/RELEASE.$(EPICS_HOST_ARCH).$(T_A)
+endif
+CONFIG = $(RULES)/configure
+include $(CONFIG)/CONFIG
+INSTALL_LOCATION = $(TOP)
+include $(TOP)/configure/CONFIG_SITE

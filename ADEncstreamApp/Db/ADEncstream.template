@@ -1,0 +1,764 @@
+# ADEncstream.template - driver-level records, address 0 (with NDArrayBase.template at the same prefix).
+#
+# Macros: P, R (record prefix), PORT (the ADEncstream port), ADDR, TIMEOUT.
+# Record meanings: the ADEncstream guide The parameter names are those of ADEncstream.h;
+# keep the two in step.
+
+# ---- stream (receiver) ----
+
+record(lsi, "$(P)$(R)BrickAddress_RBV")
+{
+    field(DTYP, "asynOctetRead")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_BRICK_ADDRESS")
+    field(SCAN, "I/O Intr")
+    field(SIZV, "128")
+}
+
+record(longin, "$(P)$(R)LocalPort_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_LOCAL_PORT")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)SocketRcvBuf_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_SOCKET_RCVBUF")
+    field(SCAN, "I/O Intr")
+}
+
+record(stringin, "$(P)$(R)StreamID_RBV")
+{
+    field(DTYP, "asynOctetRead")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_STREAM_ID")
+    field(SCAN, "I/O Intr")
+}
+
+record(mbbi, "$(P)$(R)StreamState_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_STREAM_STATE")
+    field(SCAN, "I/O Intr")
+    field(ZRST, "None")
+    field(ZRVL, "0")
+    field(ONST, "Waiting for calibration")
+    field(ONVL, "1")
+    field(ONSV, "MINOR")
+    field(TWST, "Streaming")
+    field(TWVL, "2")
+    field(THST, "Ended")
+    field(THVL, "3")
+    field(THSV, "MINOR")
+    field(FRST, "Faulted")
+    field(FRVL, "4")
+    field(FRSV, "MAJOR")
+}
+
+record(lsi, "$(P)$(R)StreamFault_RBV")
+{
+    field(DTYP, "asynOctetRead")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_STREAM_FAULT")
+    field(SCAN, "I/O Intr")
+    field(SIZV, "256")
+}
+
+record(bi, "$(P)$(R)Contact_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_CONTACT")
+    field(SCAN, "I/O Intr")
+    field(ZNAM, "Lost")
+    field(ONAM, "OK")
+    field(ZSV,  "MAJOR")
+}
+
+record(bi, "$(P)$(R)DataStalled_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_DATA_STALLED")
+    field(SCAN, "I/O Intr")
+    field(ZNAM, "No")
+    field(ONAM, "Stalled")
+    field(OSV,  "MINOR")
+}
+
+record(lsi, "$(P)$(R)Identification_RBV")
+{
+    field(DTYP, "asynOctetRead")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_IDENTIFICATION")
+    field(SCAN, "I/O Intr")
+    field(SIZV, "256")
+}
+
+record(ai, "$(P)$(R)ServoPeriod_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_SERVO_PERIOD")
+    field(SCAN, "I/O Intr")
+    field(PREC, "6")
+    field(EGU,  "s")
+}
+
+record(longin, "$(P)$(R)GatherPeriod_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_GATHER_PERIOD")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)NumAxes_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_NUM_AXES")
+    field(SCAN, "I/O Intr")
+}
+
+record(lsi, "$(P)$(R)Motors_RBV")
+{
+    field(DTYP, "asynOctetRead")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MOTORS")
+    field(SCAN, "I/O Intr")
+    field(SIZV, "64")
+}
+
+record(longin, "$(P)$(R)CalGeneration_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_CAL_GENERATION")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)RowsAdmitted_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_ROWS_ADMITTED")
+    field(SCAN, "I/O Intr")
+}
+
+# Resource use encstream reports from the Brick (its STATUS packet). VmRSS and the descriptor
+# count are read once a minute (0 = unavailable); the others update every STATUS (~1 s).
+record(longin, "$(P)$(R)BrickWorstLoop_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_BRICK_WORST_LOOP")
+    field(EGU,  "us")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)BrickBacklog_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_BRICK_BACKLOG")
+    field(EGU,  "rows")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)BrickOverruns_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_BRICK_OVERRUNS")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)BrickSendFailures_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_BRICK_SEND_FAILURES")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)BrickVmRSS_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_BRICK_VMRSS")
+    field(EGU,  "kB")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)BrickOpenFds_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_BRICK_OPEN_FDS")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)RowsLost_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_ROWS_LOST")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)RowsSkipped_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_ROWS_SKIPPED")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)LateOrDuplicate_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_LATE_OR_DUPLICATE")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)SequenceGaps_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_SEQUENCE_GAPS")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)Rejected_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_REJECTED")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)StreamChanges_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_STREAM_CHANGES")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)Faults_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_FAULTS")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)SubscribesSent_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_SUBSCRIBES_SENT")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)FinalNextRow_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_FINAL_NEXT_ROW")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)Cursor_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_CURSOR")
+    field(SCAN, "I/O Intr")
+}
+
+record(bi, "$(P)$(R)GapFree_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_GAP_FREE")
+    field(SCAN, "I/O Intr")
+    field(ZNAM, "No")
+    field(ONAM, "Yes")
+}
+
+record(bi, "$(P)$(R)TailComplete_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_TAIL_COMPLETE")
+    field(SCAN, "I/O Intr")
+    field(ZNAM, "No")
+    field(ONAM, "Yes")
+}
+
+record(lsi, "$(P)$(R)RecentEvents_RBV")
+{
+    field(DTYP, "asynOctetRead")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_RECENT_EVENTS")
+    field(SCAN, "I/O Intr")
+    field(SIZV, "1024")
+}
+
+record(bi, "$(P)$(R)DriverFault_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_DRIVER_FAULT")
+    field(SCAN, "I/O Intr")
+    field(ZNAM, "OK")
+    field(ONAM, "Fault")
+    field(OSV,  "MAJOR")
+}
+
+record(lsi, "$(P)$(R)DriverFaultMsg_RBV")
+{
+    field(DTYP, "asynOctetRead")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_DRIVER_FAULT_MSG")
+    field(SCAN, "I/O Intr")
+    field(SIZV, "256")
+}
+
+# ---- acquisition (Acquire, Acquire_RBV, AcquireBusy: NDArrayBase.template) ----
+
+record(mbbo, "$(P)$(R)AcquireMode")
+{
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_ACQUIRE_MODE")
+    field(ZRST, "Continuous")
+    field(ZRVL, "0")
+    field(ONST, "Multiple")
+    field(ONVL, "1")
+    field(TWST, "Single")
+    field(TWVL, "2")
+    info(autosaveFields, "VAL")
+}
+
+record(mbbi, "$(P)$(R)AcquireMode_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_ACQUIRE_MODE")
+    field(SCAN, "I/O Intr")
+    field(ZRST, "Continuous")
+    field(ZRVL, "0")
+    field(ONST, "Multiple")
+    field(ONVL, "1")
+    field(TWST, "Single")
+    field(TWVL, "2")
+}
+
+record(int64out, "$(P)$(R)NumAcquire")
+{
+    field(DTYP, "asynInt64")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_NUM_ACQUIRE")
+    info(autosaveFields, "VAL")
+}
+
+record(int64in, "$(P)$(R)NumAcquire_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_NUM_ACQUIRE")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)NumAcquired_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_NUM_ACQUIRED")
+    field(SCAN, "I/O Intr")
+}
+
+record(mbbo, "$(P)$(R)TriggerMode")
+{
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_TRIGGER_MODE")
+    field(ZRST, "Free Running")
+    field(ZRVL, "0")
+    field(ONST, "Gate High")
+    field(ONVL, "1")
+    field(TWST, "Gate Low")
+    field(TWVL, "2")
+    field(THST, "Rising")
+    field(THVL, "3")
+    field(FRST, "Falling")
+    field(FRVL, "4")
+    field(FVST, "Both")
+    field(FVVL, "5")
+    info(autosaveFields, "VAL")
+}
+
+record(mbbi, "$(P)$(R)TriggerMode_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_TRIGGER_MODE")
+    field(SCAN, "I/O Intr")
+    field(ZRST, "Free Running")
+    field(ZRVL, "0")
+    field(ONST, "Gate High")
+    field(ONVL, "1")
+    field(TWST, "Gate Low")
+    field(TWVL, "2")
+    field(THST, "Rising")
+    field(THVL, "3")
+    field(FRST, "Falling")
+    field(FRVL, "4")
+    field(FVST, "Both")
+    field(FVVL, "5")
+}
+
+record(longout, "$(P)$(R)FramePoints")
+{
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_FRAME_POINTS")
+    info(autosaveFields, "VAL")
+}
+
+record(ao, "$(P)$(R)FrameTime")
+{
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_FRAME_TIME")
+    field(PREC, "6")
+    field(EGU,  "s")
+    info(autosaveFields, "VAL")
+}
+
+record(longin, "$(P)$(R)FramePoints_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_FRAME_POINTS_RBV")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)FrameTime_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_FRAME_TIME_RBV")
+    field(SCAN, "I/O Intr")
+    field(PREC, "6")
+    field(EGU,  "s")
+}
+
+record(longout, "$(P)$(R)MaxFrameSamples")
+{
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MAX_FRAME_SAMPLES")
+    info(autosaveFields, "VAL")
+}
+
+record(longin, "$(P)$(R)MaxFrameSamples_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MAX_FRAME_SAMPLES")
+    field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)MinCoverage")
+{
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MIN_COVERAGE")
+    field(PREC, "3")
+    info(autosaveFields, "VAL")
+}
+
+record(ai, "$(P)$(R)MinCoverage_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MIN_COVERAGE")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+}
+
+record(bo, "$(P)$(R)EnableSampleIndex")
+{
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_ENABLE_SAMPLE_INDEX")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    info(autosaveFields, "VAL")
+}
+
+record(bi, "$(P)$(R)EnableSampleIndex_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_ENABLE_SAMPLE_INDEX")
+    field(SCAN, "I/O Intr")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+}
+
+record(bo, "$(P)$(R)EnableStatusArray")
+{
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_ENABLE_STATUS")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+    info(autosaveFields, "VAL")
+}
+
+record(bi, "$(P)$(R)EnableStatusArray_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_ENABLE_STATUS")
+    field(SCAN, "I/O Intr")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+}
+
+record(mbbi, "$(P)$(R)AcqState_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_ACQ_STATE")
+    field(SCAN, "I/O Intr")
+    field(ZRST, "Idle")
+    field(ZRVL, "0")
+    field(ONST, "Acquiring")
+    field(ONVL, "1")
+    field(TWST, "Assembled")
+    field(TWVL, "2")
+    field(THST, "Stopping")
+    field(THVL, "3")
+    field(FRST, "Complete")
+    field(FRVL, "4")
+    field(FVST, "Invalid")
+    field(FVVL, "5")
+    field(FVSV, "MAJOR")
+}
+
+record(lsi, "$(P)$(R)AcqMessage_RBV")
+{
+    field(DTYP, "asynOctetRead")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_ACQ_MESSAGE")
+    field(SCAN, "I/O Intr")
+    field(SIZV, "256")
+}
+
+record(int64in, "$(P)$(R)NotDelivered_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_NOT_DELIVERED")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)CutByStop_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_CUT_BY_STOP")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)SourceStopRow_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_SOURCE_STOP_ROW")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)FramesAssembled_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_FRAMES_ASSEMBLED")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)FramesWithGaps_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_FRAMES_WITH_GAPS")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)EmptyFrames_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_EMPTY_FRAMES")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)OverlongFrames_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_OVERLONG_FRAMES")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)CalChangedFrames_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_CAL_CHANGED_FRAMES")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)OutstandingFrames_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_OUTSTANDING_FRAMES")
+    field(SCAN, "I/O Intr")
+}
+
+record(bi, "$(P)$(R)SourceStopped_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_SOURCE_STOPPED")
+    field(SCAN, "I/O Intr")
+    field(ZNAM, "No")
+    field(ONAM, "Stopped")
+    field(OSV,  "MINOR")
+}
+
+record(ai, "$(P)$(R)MinCoverageSeen_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MIN_COVERAGE_SEEN")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+}
+
+record(bi, "$(P)$(R)Degraded_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_DEGRADED")
+    field(SCAN, "I/O Intr")
+    field(ZNAM, "No")
+    field(ONAM, "Degraded")
+    field(OSV,  "MINOR")
+}
+
+record(longin, "$(P)$(R)QueueEntries_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_QUEUE_ENTRIES")
+    field(SCAN, "I/O Intr")
+}
+
+# ---- continuous monitor ----
+
+record(bo, "$(P)$(R)MonitorRun")
+{
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MON_RUN")
+    field(ZNAM, "Stop")
+    field(ONAM, "Run")
+    info(asyn:READBACK, "1")
+}
+
+record(bi, "$(P)$(R)MonitorRun_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MON_RUN")
+    field(SCAN, "I/O Intr")
+    field(ZNAM, "Stopped")
+    field(ONAM, "Running")
+}
+
+record(ao, "$(P)$(R)MonitorAveragingTime")
+{
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MON_AVERAGING_TIME")
+    field(PREC, "3")
+    field(EGU,  "s")
+    info(autosaveFields, "VAL")
+    info(asyn:READBACK, "1")
+}
+
+record(ao, "$(P)$(R)MonitorUpdatePeriod")
+{
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MON_UPDATE_PERIOD")
+    field(PREC, "3")
+    field(EGU,  "s")
+    info(autosaveFields, "VAL")
+    info(asyn:READBACK, "1")
+}
+
+record(ai, "$(P)$(R)MonitorAveragingTime_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MON_AVERAGING_TIME_RBV")
+    field(SCAN, "I/O Intr")
+    field(PREC, "6")
+    field(EGU,  "s")
+}
+
+record(ai, "$(P)$(R)MonitorUpdatePeriod_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MON_UPDATE_PERIOD_RBV")
+    field(SCAN, "I/O Intr")
+    field(PREC, "6")
+    field(EGU,  "s")
+}
+
+record(ao, "$(P)$(R)MonitorMinCoverage")
+{
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MON_MIN_COVERAGE")
+    field(PREC, "3")
+    info(autosaveFields, "VAL")
+    info(asyn:READBACK, "1")
+}
+
+record(mbbi, "$(P)$(R)MonitorHealth_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MON_HEALTH")
+    field(SCAN, "I/O Intr")
+    field(ZRST, "Stopped")
+    field(ZRVL, "0")
+    field(ONST, "No stream")
+    field(ONVL, "1")
+    field(TWST, "Waiting")
+    field(TWVL, "2")
+    field(THST, "OK")
+    field(THVL, "3")
+    field(FRST, "Stalled")
+    field(FRVL, "4")
+    field(FVST, "Source stopped")
+    field(FVVL, "5")
+    field(SXST, "Faulted")
+    field(SXVL, "6")
+    field(SVST, "Replaced")
+    field(SVVL, "7")
+    field(EIST, "Unsupported")
+    field(EIVL, "8")
+}
+
+record(int64in, "$(P)$(R)MonitorSamples_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MON_SAMPLES")
+    field(SCAN, "I/O Intr")
+}
+
+record(int64in, "$(P)$(R)MonitorExpected_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MON_EXPECTED")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)MonitorCoverage_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MON_COVERAGE")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+}
+
+record(bi, "$(P)$(R)MonitorCalChanged_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MON_CAL_CHANGED")
+    field(SCAN, "I/O Intr")
+    field(ZNAM, "No")
+    field(ONAM, "Changed")
+}
+
+record(int64in, "$(P)$(R)MonitorUpdatesSkipped_RBV")
+{
+    field(DTYP, "asynInt64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MON_UPDATES_SKIPPED")
+    field(SCAN, "I/O Intr")
+}
+
+record(bi, "$(P)$(R)MonitorGate_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MON_GATE")
+    field(SCAN, "I/O Intr")
+    field(ZNAM, "Low")
+    field(ONAM, "High")
+}
+
+record(longin, "$(P)$(R)MonitorGateEdges_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MON_GATE_EDGES")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)MonitorGateActiveFraction_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MON_GATE_ACTIVE")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+}
+

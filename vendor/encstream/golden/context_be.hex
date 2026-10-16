@@ -1,0 +1,39 @@
+# CONTEXT for the 3-item layout, row byte order big-endian
+45 4E 43 53              # magic "ENCS"
+01                       # version 1
+02                       # type CONTEXT
+28 00                    # header length 40
+44 33 22 11              # stream ID 0x11223344
+06 00 00 00              # sequence 6
+01                       # row byte order: 1 big
+03                       # items 3
+10 00                    # row size 16
+00 00 00 00 00 00 50 3F  # servo period 2^-10 s = 0.0009765625
+01 00                    # Gather.Period 1
+00 00                    # reserved
+00 00 04 00              # Gather.MaxLines 262144 (does not fit a u16: W01)
+0A 00                    # identification length 10
+00 00                    # reserved
+# item 0
+01 00 00 00              # role 1 clock, axis 0, gate bit 0, reserved
+00 00                    # Type 0
+01 00                    # 1 word
+00 10 00 00              # Addr 0x00001000
+53 79 73 2E 53 65 72 76 6F 43 6F 75 6E 74  # "Sys.ServoCount" (14)
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  # NUL padding (18)
+# item 1
+02 00 0B 00              # role 2 gate, axis 0, gate bit 11, reserved
+00 00                    # Type 0
+01 00                    # 1 word
+00 40 00 00              # Addr 0x00004000
+50 6F 77 65 72 42 72 69 63 6B 5B 30 5D 2E 43 68 61 6E 5B 30 5D 2E 53 74 61 74 75 73  # "PowerBrick[0].Chan[0].Status" (28)
+00 00 00 00              # NUL padding (4)
+# item 2
+03 01 00 00              # role 3 position, axis 1, gate bit 0, reserved
+05 00                    # Type 5 (double)
+02 00                    # 2 words
+00 30 00 00              # Addr 0x00003000
+4D 6F 74 6F 72 5B 31 5D 2E 41 63 74 50 6F 73  # "Motor[1].ActPos" (15)
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  # NUL padding (17)
+# identification
+68 6F 73 74 3D 62 72 69 63 6B  # "host=brick"

@@ -1,0 +1,21 @@
+# DATA, rows little-endian (simulator/ARM Brick order)
+45 4E 43 53              # magic "ENCS"
+01                       # version 1
+01                       # type DATA
+28 00                    # header length 40
+44 33 22 11              # stream ID 0x11223344
+05 00 00 00              # sequence 5
+02 00 00 00 01 00 00 00  # first row 0x0000000100000002
+02 00                    # rows 2
+10 00                    # row size 16
+01 00 00 00              # calibration generation 1
+01 00 00 00              # flags: bit 0 rows skipped
+07 00 00 00              # rows skipped 7
+# row 0
+04 03 02 01              # ServoCount 0x01020304
+A5 08 A5 A5              # gate word 0xA5A508A5
+00 00 00 00 00 E0 5E 40  # 123.5 (low word first)
+# row 1
+05 03 02 01              # ServoCount 0x01020305
+A5 00 A5 A5              # gate word 0xA5A500A5
+AD FA 5C 6D 45 4A 93 C0  # -1234.5678

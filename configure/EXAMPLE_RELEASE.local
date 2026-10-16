@@ -1,0 +1,27 @@
+# Copy to configure/RELEASE.local (not in git) and set EPICS_ROOT for this host; the rest follows
+# from the standard EPICS layout below. EPICS_ROOT must be written here: EPICS's
+# RELEASE parser takes only EPICS_HOST_ARCH from the environment.
+EPICS_ROOT = /home/<user>/epics
+EPICS_BASE = $(EPICS_ROOT)/epics-base
+SUPPORT = $(EPICS_ROOT)/modules
+AREA_DETECTOR = $(SUPPORT)/areaDetector
+
+# ADEncstream's support modules are normally supplied by areaDetector's own
+# $(AREA_DETECTOR)/configure/RELEASE_PRODS.local, which configure/RELEASE includes. If your site
+# has no areaDetector top directory (so that file does not exist), uncomment these and set the
+# paths to your layout. ASYN, ADSUPPORT, ADCORE and BUSY are needed to build the library and its
+# tests (BUSY for the base Acquire/AcquireBusy records and testDriverRecords); AUTOSAVE, CALC and
+# SSCAN are needed additionally to build the example IOC.
+#ASYN = $(SUPPORT)/asyn
+#ADSUPPORT = $(AREA_DETECTOR)/ADSupport
+#ADCORE = $(AREA_DETECTOR)/ADCore
+#BUSY = $(SUPPORT)/busy
+#AUTOSAVE = $(SUPPORT)/autosave
+#CALC = $(SUPPORT)/calc
+#SSCAN = $(SUPPORT)/sscan
+
+# A static IOC (EPICS_HOST_ARCH=windows-x64-static, or any fully static link) must also define
+# SNCSEQ, even when areaDetector's RELEASE_PRODS.local supplies the rest: commonDriverMakefile links
+# calc's sequencer references (seq/pv) only when SNCSEQ is set, and a static link has no calc.dll to
+# bind them transitively. A shared/DLL build does not need it.
+#SNCSEQ = $(SUPPORT)/sncseq

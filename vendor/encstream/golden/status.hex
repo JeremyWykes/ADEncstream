@@ -1,0 +1,25 @@
+# STATUS (a faulted stream: ServoCount discontinuity)
+45 4E 43 53              # magic "ENCS"
+01                       # version 1
+04                       # type STATUS
+60 00                    # header length 96
+44 33 22 11              # stream ID 0x11223344
+09 00 00 00              # sequence 9
+02                       # state 2: fault, gather changed or stopped
+03                       # Gather.Enable 3
+05 00                    # fault code 5: ServoCount discontinuity
+11 00 00 00              # overrun events 0x11
+08 07 06 05 04 03 02 01  # rows skipped 0x0102030405060708
+00 10 00 00 00 00 00 00  # rows sent 0x1000
+00 02 00 00 00 00 00 00  # packets sent 0x200
+21 00 00 00              # rows rejected 0x21
+01 00 00 00              # ServoCount continuity violations 1
+22 00 00 00              # sendto() failures 0x22
+23 00 00 00              # SENDER_REPORT failures 0x23
+DC 05 00 00              # worst loop period 1500 us
+0D 00 00 00              # backlog 13 rows
+00 08 00 00              # VmRSS 2048 kB
+07 00 00 00              # open descriptors 7
+10 27 00 00 00 00 00 00  # next row 10000 (one past the last row sent)
+01 00 00 00              # flags: bit 0 final STATUS
+00 00 00 00              # reserved

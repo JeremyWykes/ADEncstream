@@ -1,0 +1,16 @@
+# CALIBRATION, two axes
+45 4E 43 53              # magic "ENCS"
+01                       # version 1
+05                       # type CALIBRATION
+18 00                    # header length 24
+44 33 22 11              # stream ID 0x11223344
+07 00 00 00              # sequence 7
+03 00 00 00              # generation 3
+02 00                    # axes 2
+00 00                    # reserved
+01 00 00 00              # motor 1
+00 00 00 00 00 E0 5E 40  # HomePos 123.5
+00 00 00 00 00 00 F0 3F  # PosSf 1.0
+02 00 00 00              # motor 2
+00 00 00 00 00 00 00 C0  # HomePos -2.0
+00 00 00 00 00 00 E0 3F  # PosSf 0.5

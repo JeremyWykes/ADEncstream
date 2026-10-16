@@ -1,0 +1,11 @@
+# SENDER_REPORT
+45 4E 43 53              # magic "ENCS"
+01                       # version 1
+03                       # type SENDER_REPORT
+28 00                    # header length 40
+44 33 22 11              # stream ID 0x11223344
+08 00 00 00              # sequence 8
+EF BE AD DE              # ServoCount 0xDEADBEEF
+01 00 00 00              # flags: bit 0 NTP synchronised
+F7 E6 D5 C4 B3 A2 E1 18  # wall clock 0x18E1A2B3C4D5E6F7 ns
+9A 78 56 34 12 00 00 00  # row 0x000000123456789A

@@ -1,0 +1,8 @@
+# RELEASE - the example IOC uses the module two levels up and the module's site paths
+# (configure/RELEASE.local there: EPICS_ROOT, EPICS_BASE, SUPPORT, AREA_DETECTOR); areaDetector's
+# RELEASE_PRODS.local then supplies ASYN, ADCORE, ADSUPPORT, AUTOSAVE, BUSY, CALC, SSCAN, DEVIOCSTATS.
+ADENCSTREAM = $(TOP)/../..
+-include $(ADENCSTREAM)/../RELEASE.local
+-include $(ADENCSTREAM)/configure/RELEASE.local
+-include $(AREA_DETECTOR)/configure/RELEASE_PRODS.local
+-include $(TOP)/configure/RELEASE.local

@@ -1,0 +1,25 @@
+# build products
+O.*/
+/bin/
+/lib/
+/include/
+/dbd/
+/db/
+/html/
+/templates/
+/cfg/
+/configure/O.*
+envPaths
+*.tap
+# site-specific paths (see configure/EXAMPLE_RELEASE.local)
+/configure/RELEASE.local
+/configure/CONFIG_SITE.local
+# the example IOC's build products
+/iocs/*/bin/
+/iocs/*/lib/
+/iocs/*/dbd/
+/iocs/*/db/
+/iocs/*/include/
+/iocs/*/configure/O.*
+/iocs/*/iocBoot/*/dllPath.bat
+/iocs/*/iocBoot/*/cdCommands

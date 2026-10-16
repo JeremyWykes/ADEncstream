@@ -1,0 +1,74 @@
+# ADEncstreamAxis.template - one motor's records, address n-1 for Motor[n] (macro NAME: a human name).
+#
+# Macros: P, R (record prefix), PORT (the ADEncstream port), ADDR, TIMEOUT.
+# Record meanings: the ADEncstream guide The parameter names are those of ADEncstream.h;
+# keep the two in step.
+
+record(ai, "$(P)$(R)Mean_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MEAN")
+    field(SCAN, "I/O Intr")
+    field(PREC, "6")
+}
+
+record(ai, "$(P)$(R)StdDev_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_STDDEV")
+    field(SCAN, "I/O Intr")
+    field(PREC, "6")
+}
+
+record(ai, "$(P)$(R)Min_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MIN")
+    field(SCAN, "I/O Intr")
+    field(PREC, "6")
+}
+
+record(ai, "$(P)$(R)Max_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_MAX")
+    field(SCAN, "I/O Intr")
+    field(PREC, "6")
+}
+
+record(longin, "$(P)$(R)StatusOr_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_STATUS_OR")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)HomePos_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_HOME_POS")
+    field(SCAN, "I/O Intr")
+    field(PREC, "6")
+}
+
+record(ai, "$(P)$(R)PosSf_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_POS_SF")
+    field(SCAN, "I/O Intr")
+    field(PREC, "6")
+}
+
+record(bi, "$(P)$(R)Present_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ES_PRESENT")
+    field(SCAN, "I/O Intr")
+    field(ZNAM, "Absent")
+    field(ONAM, "Present")
+}
+
+record(stringout, "$(P)$(R)Name")
+{
+    field(VAL,  "$(NAME=)")
+}

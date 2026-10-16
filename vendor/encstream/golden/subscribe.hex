@@ -1,0 +1,11 @@
+# SUBSCRIBE from the IOC
+45 4E 43 53              # magic "ENCS"
+01                       # version 1
+10                       # type SUBSCRIBE (16)
+18 00                    # header length 24
+00 00 00 00              # stream ID 0 (always, in SUBSCRIBE)
+2A 00 00 00              # IOC's sequence 42
+01 00 00 00              # flags: bit 0 send CONTEXT and CALIBRATION now
+05 00                    # identification length 5
+00 00                    # reserved
+69 6F 63 3D 58           # "ioc=X"

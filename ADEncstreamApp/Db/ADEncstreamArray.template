@@ -1,0 +1,83 @@
+# ADEncstreamArray.template - read-only array diagnostics of one NDArray address.
+#
+# Macros: P, R (record prefix), PORT (the ADEncstream port), ADDR, TIMEOUT.
+# Record meanings: the ADEncstream guide The parameter names are those of ADEncstream.h;
+# keep the two in step.
+
+record(longin, "$(P)$(R)ArrayCounter_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ARRAY_COUNTER")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)ArraySizeX_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ARRAY_SIZE_X")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)ArraySizeY_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ARRAY_SIZE_Y")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)ArraySize_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ARRAY_SIZE")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)NDimensions_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ARRAY_NDIMENSIONS")
+    field(SCAN, "I/O Intr")
+}
+
+record(mbbi, "$(P)$(R)DataType_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))DATA_TYPE")
+    field(SCAN, "I/O Intr")
+    field(ZRST, "Int8")
+    field(ZRVL, "0")
+    field(ONST, "UInt8")
+    field(ONVL, "1")
+    field(TWST, "Int16")
+    field(TWVL, "2")
+    field(THST, "UInt16")
+    field(THVL, "3")
+    field(FRST, "Int32")
+    field(FRVL, "4")
+    field(FVST, "UInt32")
+    field(FVVL, "5")
+    field(SXST, "Int64")
+    field(SXVL, "6")
+    field(SVST, "UInt64")
+    field(SVVL, "7")
+    field(EIST, "Float32")
+    field(EIVL, "8")
+    field(NIST, "Float64")
+    field(NIVL, "9")
+}
+
+record(longin, "$(P)$(R)UniqueId_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))UNIQUE_ID")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)TimeStamp_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))TIME_STAMP")
+    field(SCAN, "I/O Intr")
+    field(PREC, "3")
+}
+
